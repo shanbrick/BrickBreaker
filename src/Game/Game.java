@@ -1,6 +1,5 @@
 package Game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -51,6 +50,7 @@ public class Game extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// move paddle
 				if (directionPressed != null) {
 					if (directionPressed == Direction.LEFT) {
 						paddle.moveLeft();
@@ -66,22 +66,30 @@ public class Game extends JPanel {
 					}
 				}
 
+				// move ball y axis
 				ball.moveY();
 
+				// check ball y axis wall collisions
 				if (ball.getYDirection() == Direction.UP && ball.getYLocation() < 0) {
 					ball.setYDirection(Direction.DOWN);
 					ball.setYLocation(0);
 				} 
 				
+				// check ball y axis paddle collisions
 				paddleBallCollisionHandler(Axis.Y);
+				
+				// check ball y axis brick collisions
 				brickBallCollisionHandler(Axis.Y);
 				
+				// if all bricks hit, game over
 				if (allBricksHit) {
 					System.exit(1);
 				}
 
+				// move ball y axis
 				ball.moveX();
 				
+				// check ball x axis wall collisions
 				if (ball.getXDirection() == Direction.LEFT && ball.getXLocation() < 0) {
 					ball.setXDirection(Direction.RIGHT);
 					ball.setXLocation(0);
@@ -91,13 +99,18 @@ public class Game extends JPanel {
 					ball.setXLocation(getWidth() - ball.getWidth());
 				}
 
+				// check ball x axis paddle collisions
 				paddleBallCollisionHandler(Axis.X);
+				
+				// check ball x axis brick collisions
 				brickBallCollisionHandler(Axis.X);
 				
+				// if all bricks hit, game over
 				if (allBricksHit) {
 					System.exit(1);
 				}
 				
+				// if ball hits bottom of the screen, game over
 				if (ball.getYLocation() + ball.getHeight() > getHeight()) {
 					System.exit(1);
 				}

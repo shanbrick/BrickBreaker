@@ -10,8 +10,6 @@ public class Ball {
 	private Direction xDirection;
 	private Direction yDirection;
 	private int speed = 4;
-	private int previousXLocation;
-	private int previousYLocation;
 	
 	public Ball() {
 		ball = new Rectangle();
@@ -26,7 +24,6 @@ public class Ball {
 	}
 	
 	public void setXLocation(int xLocation) {
-		previousXLocation = ball.getXLocation();
 		ball.setLocation(xLocation, ball.getYLocation());
 	}
 	
@@ -35,24 +32,7 @@ public class Ball {
 	}
 	
 	public void setYLocation(int yLocation) {
-		previousYLocation = ball.getYLocation();
 		ball.setLocation(ball.getXLocation(), yLocation);
-	}
-	
-	public int getPreviousXLocation() {
-		return previousXLocation;
-	}
-
-	public void setPreviousXLocation(int previousXLocation) {
-		this.previousXLocation = previousXLocation;
-	}
-
-	public int getPreviousYLocation() {
-		return previousYLocation;
-	}
-
-	public void setPreviousYLocation(int previousYLocation) {
-		this.previousYLocation = previousYLocation;
 	}
 	
 	public Direction getXDirection() {
@@ -82,20 +62,12 @@ public class Ball {
 	public int getSpeed() {
 		return speed;
 	}
-
-	public void move() {
-		previousXLocation = ball.getXLocation();
-		previousYLocation = ball.getYLocation();
-		ball.setLocation(ball.getXLocation() + xDirection.getVelocity() * speed, ball.getYLocation() + yDirection.getVelocity() * speed);
-	}
 	
 	public void moveX() {
-		previousXLocation = ball.getXLocation();
 		ball.setLocation(ball.getXLocation() + xDirection.getVelocity() * speed, ball.getYLocation());
 	}
 	
 	public void moveY() {
-		previousYLocation = ball.getYLocation();
 		ball.setLocation(ball.getXLocation(), ball.getYLocation() + yDirection.getVelocity() * speed);
 	}
 	

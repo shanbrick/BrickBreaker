@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import SwingShapes.Rectangle;
+import Utils.Direction;
 
 public class Ball {
 	private Rectangle ball;

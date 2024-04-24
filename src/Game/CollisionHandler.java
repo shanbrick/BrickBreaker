@@ -1,10 +1,10 @@
 package Game;
 
-import Models.Axis;
 import Models.Ball;
 import Models.Brick;
-import Models.Direction;
 import Models.Paddle;
+import Utils.Axis;
+import Utils.Direction;
 
 public class CollisionHandler {
     private Ball ball;

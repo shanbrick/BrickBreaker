@@ -1,4 +1,4 @@
-package Models;
+package Utils;
 
 public enum Axis {
 	X, Y;

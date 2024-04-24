@@ -2,11 +2,11 @@ package Game;
 
 import java.awt.Graphics2D;
 
-import Models.Axis;
 import Models.Ball;
 import Models.Brick;
-import Models.Direction;
 import Models.Paddle;
+import Utils.Axis;
+import Utils.Direction;
 
 public class GameLoop {
 	private Paddle paddle;

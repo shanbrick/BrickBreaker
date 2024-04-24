@@ -23,6 +23,7 @@ public class GameLoop {
         paddle = new Paddle();
 		ball = new Ball();
 		bricks = new Brick[3][6];
+        numberOfBricksHit = 0;
 		
 		int brickWidth = 120;
 		int brickHeight = 20;
@@ -32,6 +33,7 @@ public class GameLoop {
 		int spacingFromWallY = 5;
 		
         // create brick for each slot available in 2D array
+        totalNumberOfBricks = 0;
 		for (int i = 0; i < bricks.length; i++) {
 			for (int j = 0; j < bricks[i].length; j++) {
 				int brickXLocation = j * brickWidth + (j * horizontalSpacing) + spacingFromWallX;

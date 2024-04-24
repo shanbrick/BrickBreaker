@@ -64,14 +64,26 @@ public class Ball {
 	}
 	
 	public void moveX() {
-		ball.setLocation(ball.getXLocation() + xDirection.getVelocity() * speed, ball.getYLocation());
+		int amountToMoveX = xDirection.getVelocity() * speed;
+		ball.setLocation(ball.getXLocation() + amountToMoveX, ball.getYLocation());
 	}
 	
 	public void moveY() {
-		ball.setLocation(ball.getXLocation(), ball.getYLocation() + yDirection.getVelocity() * speed);
+		int amountToMoveY = yDirection.getVelocity() * speed;
+		ball.setLocation(ball.getXLocation(), ball.getYLocation() + amountToMoveY);
 	}
 	
 	public void draw(Graphics2D g) {
 		ball.paint(g);
+	}
+
+	public boolean intersects(Paddle paddle) {
+		return paddle.getXLocation() < ball.getXLocation() + ball.getWidth() && paddle.getXLocation() + paddle.getWidth() > ball.getXLocation() && 
+			paddle.getYLocation() < ball.getYLocation() + ball.getHeight() && paddle.getYLocation() + paddle.getHeight() > ball.getYLocation();
+	}
+
+	public boolean intersects(Brick brick) {
+		return brick.getXLocation() < ball.getXLocation() + ball.getWidth() && brick.getXLocation() + brick.getWidth() > ball.getXLocation() && 
+			brick.getYLocation() < ball.getYLocation() + ball.getHeight() && brick.getYLocation() + brick.getHeight() > ball.getYLocation();
 	}
 }

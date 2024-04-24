@@ -44,15 +44,16 @@ public class Paddle {
 	}
 	
 	public void moveLeft() {
-		paddle.setLocation(paddle.getXLocation() + Direction.LEFT.getVelocity() * speed, paddle.getYLocation());
+		int amountToMoveX = Direction.LEFT.getVelocity() * speed;
+		paddle.setLocation(paddle.getXLocation() + amountToMoveX, paddle.getYLocation());
 	}
 	
 	public void moveRight() {
-		paddle.setLocation(paddle.getXLocation() + Direction.RIGHT.getVelocity() * speed, paddle.getYLocation());
+		int amountToMoveX =  Direction.RIGHT.getVelocity() * speed;
+		paddle.setLocation(paddle.getXLocation() + amountToMoveX, paddle.getYLocation());
 	}
 	
 	public void draw(Graphics2D g) {
 		paddle.paint(g);
 	}
-	
 }

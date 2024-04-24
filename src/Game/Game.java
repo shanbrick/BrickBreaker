@@ -42,7 +42,9 @@ public class Game extends JPanel {
 		
 		for (int i = 0; i < bricks.length; i++) {
 			for (int j = 0; j < bricks[i].length; j++) {
-				bricks[i][j] = new Brick(j * brickWidth + (j * horizontalSpacing) + spacingFromWallX, i * brickHeight + (i * verticalSpacing) + spacingFromWallY, brickWidth, brickHeight);
+				int brickXLocation = j * brickWidth + (j * horizontalSpacing) + spacingFromWallX;
+				int brickYLocation = i * brickHeight + (i * verticalSpacing) + spacingFromWallY;
+				bricks[i][j] = new Brick(brickXLocation, brickYLocation, brickWidth, brickHeight);
 			}
 		}
 
@@ -54,13 +56,13 @@ public class Game extends JPanel {
 				if (directionPressed != null) {
 					if (directionPressed == Direction.LEFT) {
 						paddle.moveLeft();
-						if (isBallIntersectingPaddle()) {
+						if (ball.intersects(paddle)) {
 							ball.setXLocation(paddle.getXLocation() - ball.getWidth());
 						}
 					} 
 					else if (directionPressed == Direction.RIGHT) {
 						paddle.moveRight();
-						if (isBallIntersectingPaddle()) {
+						if (ball.intersects(paddle)) {
 							ball.setXLocation(paddle.getXLocation() + paddle.getWidth());
 						}
 					}
@@ -179,7 +181,7 @@ public class Game extends JPanel {
 	}
 	
 	private void paddleBallCollisionHandler(Axis axis) {
-		if (isBallIntersectingPaddle()) {
+		if (ball.intersects(paddle)) {
 			if (axis == Axis.X) {
 				if (ball.getXDirection() == Direction.LEFT) {
 					ball.setXLocation(paddle.getXLocation() + paddle.getWidth());
@@ -211,7 +213,7 @@ public class Game extends JPanel {
 				if (!brick.getIsHit()) {
 					allBricksHit = false;
 					
-					if (isBallIntersectingBrick(brick)) {
+					if (ball.intersects(brick)) {
 						brick.setIsHit(true);
 						
 						if (axis == Axis.X) {
@@ -239,15 +241,5 @@ public class Game extends JPanel {
 				}
 			}
 		}
-	}
-	
-	private boolean isBallIntersectingPaddle() {
-		return paddle.getXLocation() < ball.getXLocation() + ball.getWidth() && paddle.getXLocation() + paddle.getWidth() > ball.getXLocation() && 
-			paddle.getYLocation() < ball.getYLocation() + ball.getHeight() && paddle.getYLocation() + paddle.getHeight() > ball.getYLocation();
-	}
-	
-	private boolean isBallIntersectingBrick(Brick brick) {
-		return brick.getXLocation() < ball.getXLocation() + ball.getWidth() && brick.getXLocation() + brick.getWidth() > ball.getXLocation() && 
-				brick.getYLocation() < ball.getYLocation() + ball.getHeight() && brick.getYLocation() + brick.getHeight() > ball.getYLocation();
 	}
 }

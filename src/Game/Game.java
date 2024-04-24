@@ -160,6 +160,7 @@ public class Game extends JPanel {
 		ball.setYLocation(paddle.getYLocation() - ball.getHeight() - 5);
 		
 		timer.start();
+		this.grabFocus();
 	}
 
 	@Override

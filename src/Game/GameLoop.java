@@ -15,14 +15,7 @@ public class GameLoop {
 	private Brick[][] bricks;
 	private int totalNumberOfBricks;
 	private int numberOfBricksHit;
-
-    public Direction getDirectionPressed() {
-        return this.directionPressed;
-    }
-
-    public void setDirectionPressed(Direction directionPressed) {
-        this.directionPressed = directionPressed;
-    }
+    private CollisionHandler collisionHandler;
     
     public void setup() {
         paddle = new Paddle();
@@ -52,6 +45,8 @@ public class GameLoop {
 		int difference = paddleX2 - paddle.getXLocation();
 		ball.setXLocation(paddle.getXLocation() + (difference / 2) - (ball.getWidth() / 2));
 		ball.setYLocation(paddle.getYLocation() - ball.getHeight() - 5);
+
+        collisionHandler = new CollisionHandler(ball, paddle, bricks);
     }
 
     public void update() {
@@ -80,11 +75,14 @@ public class GameLoop {
         } 
         
         // check ball y axis paddle collisions
-        paddleBallCollisionHandler(Axis.Y);
+        collisionHandler.paddleBallCollisionHandler(Axis.Y);
         
         // check ball y axis brick collisions
-        brickBallCollisionHandler(Axis.Y);
-        
+        boolean isBrickYCollision = collisionHandler.brickBallCollisionHandler(Axis.Y);
+        if (isBrickYCollision) {
+            numberOfBricksHit++;
+        }
+
         // if all bricks hit, game over
         if (allBricksHit()) {
             System.exit(0);
@@ -104,11 +102,14 @@ public class GameLoop {
         }
 
         // check ball x axis paddle collisions
-        paddleBallCollisionHandler(Axis.X);
+        collisionHandler.paddleBallCollisionHandler(Axis.X);
         
         // check ball x axis brick collisions
-        brickBallCollisionHandler(Axis.X);
-        
+        boolean isBrickXCollision= collisionHandler.brickBallCollisionHandler(Axis.X);
+        if (isBrickXCollision) {
+            numberOfBricksHit++;
+        }
+
         // if all bricks hit, game over
         if (allBricksHit()) {
             System.exit(1);
@@ -132,68 +133,16 @@ public class GameLoop {
 		}
     }
 
-    private void paddleBallCollisionHandler(Axis axis) {
-		if (ball.intersects(paddle)) {
-			if (axis == Axis.X) {
-				if (ball.getXDirection() == Direction.LEFT) {
-					ball.setXLocation(paddle.getXLocation() + paddle.getWidth());
-					ball.setXDirection(Direction.RIGHT);
-				}
-				else if (ball.getXDirection() == Direction.RIGHT) {
-					ball.setXLocation(paddle.getXLocation() - ball.getWidth());
-					ball.setXDirection(Direction.LEFT);
-				}
-			}
-			else if (axis == Axis.Y) {
-				if (ball.getYDirection() == Direction.UP) {
-					ball.setYLocation(paddle.getYLocation() + paddle.getHeight());
-					ball.setYDirection(Direction.DOWN);
-				}
-				else if (ball.getYDirection() == Direction.DOWN) {
-					ball.setYLocation(paddle.getYLocation() - ball.getHeight());
-					ball.setYDirection(Direction.UP);
-				}
-			}
-		}
-	}
-	
-	private void brickBallCollisionHandler(Axis axis) {
-		for (int i = 0; i < bricks.length; i++) {
-			for (int j = 0; j < bricks[i].length; j++) {
-				Brick brick = bricks[i][j];
-				if (!brick.getIsHit()) {
-					if (ball.intersects(brick)) {
-						brick.setIsHit(true);
-						numberOfBricksHit++;
-						
-						if (axis == Axis.X) {
-							if (ball.getXDirection() == Direction.LEFT) {
-								ball.setXLocation(brick.getXLocation() + brick.getWidth());
-								ball.setXDirection(Direction.RIGHT);
-							}
-							else if (ball.getXDirection() == Direction.RIGHT) {
-								ball.setXLocation(brick.getXLocation() - ball.getWidth());
-								ball.setXDirection(Direction.LEFT);
-							}
-						}
-						else if (axis == Axis.Y) {
-							if (ball.getYDirection() == Direction.UP) {
-								ball.setYLocation(brick.getYLocation() + brick.getHeight());
-								ball.setYDirection(Direction.DOWN);
-							}
-							else if (ball.getYDirection() == Direction.DOWN) {
-								ball.setYLocation(brick.getYLocation() - ball.getHeight());
-								ball.setYDirection(Direction.UP);
-							}
-						}
-						return;
-					}
-				}
-			}
-		}
-	}
-
 	private boolean allBricksHit() {
 		return numberOfBricksHit == totalNumberOfBricks;
 	}
+
+    public Direction getDirectionPressed() {
+        return this.directionPressed;
+    }
+
+    // GamePanel file uses this to tell GameLoop which direction was pressed (left or right)
+    public void setDirectionPressed(Direction directionPressed) {
+        this.directionPressed = directionPressed;
+    }
 }

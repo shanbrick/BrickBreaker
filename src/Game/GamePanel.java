@@ -6,15 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
 import GUIControls.Window;
-import Models.Ball;
-import Models.Brick;
-import Models.Paddle;
-import Utils.Axis;
 import Utils.Direction;
 
 public class GamePanel extends JPanel {
@@ -28,6 +22,8 @@ public class GamePanel extends JPanel {
 		setDoubleBuffered(true);
 		gameLoop = new GameLoop();
 
+		// every tick of the timer is a frame of the game
+		// tells game loop to update and draw itself every tick
 		timer = new Timer(1, new ActionListener() {
 
 			@Override
@@ -37,7 +33,10 @@ public class GamePanel extends JPanel {
 			}
 		});
 
+		// keyboard key press detection
 		this.addKeyListener(new KeyAdapter() {
+
+			// will tell game loop whether the player has the A key down (move paddle left) or the D key down (move paddle right)
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -48,6 +47,7 @@ public class GamePanel extends JPanel {
 				}
 			}
 
+			// will tell game loop whether the player has released the move keys, which signals that the paddle should stop moving
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -69,10 +69,16 @@ public class GamePanel extends JPanel {
 	}
 
 	public void startGame() {
+		// set static vars for panel width and height for GameLoop to use whenever needed
 		HEIGHT = getHeight();
 		WIDTH = getWidth();
+
+		// tell game loop to set itself up in preparation for the game to be played
 		gameLoop.setup();
+
+		// start the timer, which will tell the game loop to update and draw every tick
 		timer.start();
+
 		this.grabFocus();
 	}
 
@@ -80,6 +86,8 @@ public class GamePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D graphics = (Graphics2D) g;
+
+		// tell game loop to draw its desired graphics to the screen
 		gameLoop.draw(graphics);
 	}
 	
